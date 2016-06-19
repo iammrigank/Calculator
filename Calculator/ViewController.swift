@@ -9,17 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    @IBOutlet weak var display: UILabel?
+    
+    @IBAction func touchDigit(sender: UIButton) {
+        let digit = sender.currentTitle!
+        let currentDisplay = display!.text!
+        
+        if currentDisplay != "0" {
+            display!.text = currentDisplay + digit
+        } else {
+            display!.text = digit
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
