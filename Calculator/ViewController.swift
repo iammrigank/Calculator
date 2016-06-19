@@ -9,17 +9,47 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var display: UILabel?
     
-    @IBAction func touchDigit(sender: UIButton) {
+    private var userIsTyping = false
+    
+    @IBOutlet private weak var display: UILabel!
+    
+    @IBAction private func touchDigit(sender: UIButton) {
         let digit = sender.currentTitle!
-        let currentDisplay = display!.text!
+        let currentDisplay = display.text!
         
-        if currentDisplay != "0" {
-            display!.text = currentDisplay + digit
+        if userIsTyping {
+            display.text = currentDisplay + digit
         } else {
-            display!.text = digit
+            display.text = digit
+        }
+        
+        userIsTyping = true
+    }
+    
+    private var displayValue : Double {
+        get {
+            return Double(display.text!)!
+        }
+        
+        set {
+            display.text = String(newValue)
         }
     }
-}
+    
+    private var brain = CalculatorBrain()
+    
+    @IBAction private func performOperation(sender: UIButton) {
+        
+        if userIsTyping {
+            brain.setOperand(displayValue)
+            userIsTyping = false
+        }
 
+        if let mathematicalSymbol = sender.currentTitle {
+            brain.performOperation(mathematicalSymbol)
+        }
+        
+        displayValue = brain.result
+    }
+}
